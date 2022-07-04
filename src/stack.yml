@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+  prometheus:
+    image: prom/prometheus:v2.36.2
+    restart: always
+    ports:
+      - 9091:9090      
+    volumes:
+      - prom_config:/etc/prometheus
+      - /etc/node_exporter/node_exporter.crt:/etc/prometheus/node_exporter.crt
+    depends_on:
+      - alertmanager
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  
+  alertmanager:
+    image: prom/alertmanager:v0.24.0
+    restart: always
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager:/config
+      - alertmanager_data:/data
+    command: --config.file=/config/alertmanager.yml
+
+  grafana: 
+    image: grafana/grafana-oss:9.0.2
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  prom_config:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /etc/prometheus
+  grafana_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /var/lib/grafana
+  alertmanager_data:
+
