@@ -6,12 +6,12 @@ services:
     ports:
       - 9091:9090      
     volumes:
-      - prom_config:/etc/prometheus
+      - ./prometheus:/etc/prometheus
       - /etc/node_exporter/node_exporter.crt:/etc/prometheus/node_exporter.crt
     depends_on:
       - alertmanager
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:host-gateway"      
   
   alertmanager:
     image: prom/alertmanager:v0.24.0
@@ -22,6 +22,7 @@ services:
       - ./alertmanager:/config
       - alertmanager_data:/data
     command: --config.file=/config/alertmanager.yml
+    
 
   grafana: 
     image: grafana/grafana-oss:9.0.2
@@ -34,17 +35,6 @@ services:
       - grafana_data:/var/lib/grafana
 
 volumes:
-  prom_config:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: /etc/prometheus
   grafana_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: /var/lib/grafana
   alertmanager_data:
 
