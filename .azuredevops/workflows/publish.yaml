@@ -1,0 +1,10 @@
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: PublishBuildArtifacts@1
+    inputs:
+      ArtifactName: manifest
+      StoreAsTar: true
+      PathtoPublish: src/
+  

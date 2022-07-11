@@ -14,9 +14,9 @@ route:
 receivers:
 - name: PagerDuty
   pagerduty_configs:
-  - routing_key: __RoutingKey__
-    severity: '{{ if .Labels.severity }}{{ .Labels.severity | toLower }}{{ else }}critical{{ end }}'
+  - routing_key: $ROUTING_KEY
+    severity: '{{ if .CommonLabels.severity }}{{ .CommonLabels.severity | toLower }}{{ else }}error{{ end }}'
 
 - name: DeadManSnitch
   webhook_configs:
-  - url: __SnitchUrl__
+  - url: $SNITCH_URL
