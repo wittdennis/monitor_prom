@@ -27,7 +27,6 @@ services:
     networks:
       - monitoring
     
-
   grafana: 
     image: grafana/grafana-oss:9.0.2
     restart: always
