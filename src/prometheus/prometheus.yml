@@ -36,6 +36,11 @@ scrape_configs:
       - targets:
           - host.docker.internal:9323
 
+  - job_name: cadvisor
+    static_configs:
+    - targets:
+      - cadvisor:8080
+
 alerting:
   alertmanagers:
     - timeout: 10s

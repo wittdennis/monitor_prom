@@ -11,6 +11,7 @@ services:
       - prometheus:/prometheus
     depends_on:
       - alertmanager
+      - cadvisor
     extra_hosts:
       - "host.docker.internal:host-gateway"      
     networks:
@@ -37,6 +38,29 @@ services:
       - prometheus
     volumes:
       - grafana_data:/var/lib/grafana
+    networks:
+      - monitoring
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.39.3
+    container_name: cadvisor
+    ports:
+    - 8080:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+    - redis
+    networks:
+      - monitoring
+
+  redis:
+    image: redis:7.0
+    container_name: redis
+    ports:
+    - 6379:6379
     networks:
       - monitoring
 
