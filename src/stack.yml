@@ -8,6 +8,7 @@ services:
     volumes:
       - ./prometheus:/etc/prometheus
       - /etc/node_exporter/node_exporter.crt:/etc/prometheus/node_exporter.crt
+      - prometheus:/prometheus
     depends_on:
       - alertmanager
     extra_hosts:
@@ -40,6 +41,7 @@ services:
       - monitoring
 
 volumes:
+  prometheus:
   grafana_data:
   alertmanager_data:
 

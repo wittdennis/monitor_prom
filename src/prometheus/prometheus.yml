@@ -7,6 +7,7 @@ global:
 rule_files:
   - 'prometheus_alerts.yml'
   - 'node_exporter_alerts.yml'
+  - 'docker_alerts.yml'
 
 scrape_configs:  
   - job_name: 'prometheus'
