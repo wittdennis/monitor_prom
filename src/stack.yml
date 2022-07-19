@@ -51,18 +51,9 @@ services:
     - /var/run:/var/run:rw
     - /sys:/sys:ro
     - /var/lib/docker/:/var/lib/docker:ro
-    depends_on:
-    - redis
     networks:
       - monitoring
-
-  redis:
-    image: redis:7.0
-    container_name: redis
-    ports:
-    - 6379:6379
-    networks:
-      - monitoring
+    command: --docker_only=true
 
 volumes:
   prometheus_data:
